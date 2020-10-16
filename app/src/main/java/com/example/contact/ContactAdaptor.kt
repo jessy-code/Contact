@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_contact.view.*
 
 
-class ContactAdaptor (private val movies: List<Contact>) : RecyclerView.Adapter<ContactAdaptor.ContactViewHolder>(){
+class ContactAdaptor (private val contacts: MutableList<Contact>) : RecyclerView.Adapter<ContactAdaptor.ContactViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -15,10 +15,10 @@ class ContactAdaptor (private val movies: List<Contact>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(movies[position])
+        holder.bind(contacts[position])
     }
 
-    override fun getItemCount() = movies.size
+    override fun getItemCount() = contacts.size
 
     inner class ContactViewHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_contact, parent, false)){
 
@@ -27,6 +27,12 @@ class ContactAdaptor (private val movies: List<Contact>) : RecyclerView.Adapter<
             itemView.run {
                 if (!contact.isValid) textView.alpha = 0.5F
                 textView.text = contact.name + " " + contact.age.toString() + " " + contact.photo
+
+
+                setOnClickListener {
+                    contacts.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                }
 
             }
 
